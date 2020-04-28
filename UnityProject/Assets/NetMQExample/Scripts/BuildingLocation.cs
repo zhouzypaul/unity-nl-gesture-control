@@ -5,6 +5,7 @@ using UnityEngine;
 public class BuildingLocation : MonoBehaviour
 {
 
+    public System.String name;
     public double lat;
     public double lon;
 

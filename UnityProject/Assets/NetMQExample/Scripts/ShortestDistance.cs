@@ -1,19 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShortestDistance : MonoBehaviour
 {
-
-    public GameObject princeLab;
-    public GameObject arnoldLab;
-    public GameObject envLab;
-    public GameObject medicalLab;
     public GameObject clickDetector;
+    public int topChoiceNum;
 
-    public System.String destination; 
+    System.String destination; 
+
+    public GameObject prefab;
+    public GameObject parent;
+    public Text inputStream;
 
 
+    // Start is called before the first frame update
+    // Dynamically instantiate all the objects 
+    void Start()
+    {
+        // get info from the ClikcPosition script 
+        ClickPosition cp = clickDetector.GetComponent<ClickPosition>();
+        double lonRescale = (cp.maxLon - cp.minLon) / 10;
+        double latRescale = (cp.maxLat - cp.minLat) / 10;
+        double midLat = 0.5 * (cp.minLat + cp.maxLat);
+        double midLon = 0.5 * (cp.minLon + cp.maxLon);
+
+        // parse the input stream and instantiate objects 
+        System.String input = inputStream.text;
+        System.String[] buildingArray = input.Split(';');
+        for (int i = 0; i < topChoiceNum; i++) 
+        {
+            System.String buildingInfo = buildingArray[i];
+            NumberFormatInfo provider = new NumberFormatInfo();
+            System.String[] info = buildingInfo.Split(',');
+            System.String name = info[0];
+            double lat = Convert.ToDouble(info[1], provider);
+            double lon = Convert.ToDouble(info[2], provider);
+
+            float x = (float) ((lon - midLon) / lonRescale);
+            float y = (float) ((lat - midLat) / latRescale);
+            Vector3 location = new Vector3(x, y, 0);
+            GameObject newBuilding = Instantiate(prefab, 
+                                                 location, 
+                                                 Quaternion.identity);
+            BuildingLocation bl = newBuilding.GetComponent<BuildingLocation>();
+            bl.name = name;
+            bl.lat = lat;
+            bl.lon = lon;
+            newBuilding.name = name;
+            // newBuilding.transform.Find("Name").GetComponent<TextMesh>().text
+            //     = name;
+            newBuilding.transform.SetParent(parent.transform);
+        }
+    }
+
+    // Update is called once per frame 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClickPosition cp = clickDetector.GetComponent<ClickPosition>();
+            double theta = cp.theta;
+            double midLat = 0.5 * (cp.minLat + cp.maxLat);
+            double midLon = 0.5 * (cp.minLon + cp.maxLon);
+            double diff = 6.28;
+            System.String destination = "";
+            if (parent.transform.childCount != 0) 
+            {
+                foreach (Transform child in parent.transform)
+                {
+                    BuildingLocation bl = child.GetComponent<BuildingLocation>();
+                    double innerLat = bl.lat - midLat;
+                    double innerLon = bl.lon - midLon;
+                    double innerDiff = System.Math.Abs(CoordinatesToTheta(innerLat, innerLon) - theta);
+                    if (innerDiff < diff) 
+                    {
+                        diff = innerDiff;
+                        destination = bl.name;
+                    }
+                }
+            }
+            Debug.Log("the closest destination is " + destination);
+        }
+    }
+
+    
     // a helper to turn coordinates to angles 
     double CoordinatesToTheta(double lat, double lon)
     {
@@ -42,59 +116,4 @@ public class ShortestDistance : MonoBehaviour
     //     return args1 / args2;
     // }
 
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    // }
-
-    // Update is called once per frame 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ClickPosition cp = clickDetector.GetComponent<ClickPosition>();
-            double theta = cp.theta;
-            double midLat = 0.5 * (cp.minLat + cp.maxLat);
-            double midLon = 0.5 * (cp.minLon + cp.maxLon);
-            BuildingLocation bd1 = princeLab.GetComponent<BuildingLocation>();
-            double lat1 = bd1.lat - midLat;
-            double lon1 = bd1.lon - midLon;
-            BuildingLocation bd2 = arnoldLab.GetComponent<BuildingLocation>();
-            double lat2 = bd2.lat - midLat;
-            double lon2 = bd2.lon - midLon;
-            BuildingLocation bd3 = envLab.GetComponent<BuildingLocation>();
-            double lat3 = bd3.lat - midLat;
-            double lon3 = bd3.lon - midLon;
-            BuildingLocation bd4 = medicalLab.GetComponent<BuildingLocation>();
-            double lat4 = bd4.lat - midLat;
-            double lon4 = bd4.lon - midLon;
-            double dist1 = System.Math.Abs(CoordinatesToTheta(lat1, lon1) - theta);
-            double dist2 = System.Math.Abs(CoordinatesToTheta(lat2, lon2) - theta);
-            double dist3 = System.Math.Abs(CoordinatesToTheta(lat3, lon3) - theta);
-            double dist4 = System.Math.Abs(CoordinatesToTheta(lat4, lon4) - theta);
-            if (dist1 <= System.Math.Min(dist2, System.Math.Min(dist3, dist4)))
-            {
-                destination = "Prince Engineering Lab";
-            }
-            else 
-            {
-                if (dist2 <= System.Math.Min(dist3, dist4))
-                {
-                    destination = "Arnold Lab";
-                }
-                else 
-                {
-                    if (dist3 <= dist4) 
-                    {
-                        destination = "Urban Environment Lab";
-                    }
-                    else 
-                    {
-                        destination = "Medical Research Lab";
-                    }
-                }
-            }
-            Debug.Log("the closest destination is " + destination);
-        }
-    }
 }
