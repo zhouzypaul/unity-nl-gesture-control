@@ -15,13 +15,18 @@ public class ShortestDistance : MonoBehaviour
     public GameObject prefab;
     public GameObject parent;
     public Text inputStream;
+    public bool firstLoad = false;
 
 
     // Start is called before the first frame update
     // Dynamically instantiate all the objects 
     void Start()
     {
-        // get info from the ClikcPosition script 
+
+    }
+
+    void CreateTarget( )
+    {         // get info from the ClikcPosition script 
         ClickPosition cp = clickDetector.GetComponent<ClickPosition>();
         double lonRescale = (cp.maxLon - cp.minLon) / 10;
         double latRescale = (cp.maxLat - cp.minLat) / 10;
@@ -31,7 +36,7 @@ public class ShortestDistance : MonoBehaviour
         // parse the input stream and instantiate objects 
         System.String input = inputStream.text;
         System.String[] buildingArray = input.Split(';');
-        for (int i = 0; i < topChoiceNum; i++) 
+        for (int i = 0; i < topChoiceNum; i++)
         {
             System.String buildingInfo = buildingArray[i];
             NumberFormatInfo provider = new NumberFormatInfo();
@@ -40,11 +45,11 @@ public class ShortestDistance : MonoBehaviour
             double lat = Convert.ToDouble(info[1], provider);
             double lon = Convert.ToDouble(info[2], provider);
 
-            float x = (float) ((lon - midLon) / lonRescale);
-            float y = (float) ((lat - midLat) / latRescale);
+            float x = (float)((lon - midLon) / lonRescale);
+            float y = (float)((lat - midLat) / latRescale);
             Vector3 location = new Vector3(x, y, 0);
-            GameObject newBuilding = Instantiate(prefab, 
-                                                 location, 
+            GameObject newBuilding = Instantiate(prefab,
+                                                 location,
                                                  Quaternion.identity);
             BuildingLocation bl = newBuilding.GetComponent<BuildingLocation>();
             bl.name = name;
@@ -57,9 +62,19 @@ public class ShortestDistance : MonoBehaviour
         }
     }
 
+
     // Update is called once per frame 
     void Update()
     {
+        if ( inputStream.text.Length > 10 && firstLoad == false)
+        {
+            CreateTarget();
+            firstLoad = true;
+        }
+
+
+
+
         if (Input.GetMouseButtonDown(0))
         {
             ClickPosition cp = clickDetector.GetComponent<ClickPosition>();

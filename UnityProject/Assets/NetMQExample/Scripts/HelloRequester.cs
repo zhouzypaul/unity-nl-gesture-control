@@ -13,7 +13,9 @@ using UnityEngine.UI;
 public class HelloRequester : RunAbleThread
 {
 
-    public Text ResultsField; 
+    public Text ResultsField;
+    public Text ModelOutputField;
+
 
     /// <summary>
     ///     Request Hello message to server and receive message back. Do it 10 times.
@@ -40,6 +42,8 @@ public class HelloRequester : RunAbleThread
                     gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
                     if (gotMessage) break;
                 }
+
+                ModelOutputField.text = message; 
 
                 if (gotMessage) Debug.Log("Received " + message);
             }

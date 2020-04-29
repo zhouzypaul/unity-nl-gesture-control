@@ -7,11 +7,16 @@ public class HelloClient : MonoBehaviour
 
     [Tooltip("Text field to display the results of streaming.")]
     public Text ResultsField;
+    public Text ModelOutputField;
+
 
     private void Start()
     {
         _helloRequester = new HelloRequester();
-        _helloRequester.ResultsField = ResultsField; 
+        _helloRequester.ResultsField = ResultsField;
+
+        _helloRequester.ModelOutputField = ModelOutputField;
+
         _helloRequester.Start();
     }
 
