@@ -385,12 +385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2f4e41018c04770afba6a28c4165a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minLat: 41.82558
-  minLon: -71.40242
-  maxLat: 41.82889
-  maxLon: -71.39798
+  minLat: 41.8229
+  minLon: -71.4074
+  maxLat: 41.8307
+  maxLon: -71.3969
   theta: 0
-  slope: 0
   clickMask:
     serializedVersion: 2
     m_Bits: 512
@@ -702,7 +701,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ead2fb3e831df46b4a18a841323d5f58, type: 2}
+  - {fileID: 2100000, guid: 30d9b1515e96745558823459e6c0bd31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -775,7 +774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickDetector: {fileID: 429943494}
-  topChoiceNum: 4
+  topChoiceNum: 10
   prefab: {fileID: 1666112808}
   parent: {fileID: 518026107}
   inputStream: {fileID: 697674729}
@@ -897,7 +896,7 @@ Transform:
   m_GameObject: {fileID: 1666112808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10

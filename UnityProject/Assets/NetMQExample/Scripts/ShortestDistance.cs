@@ -90,7 +90,11 @@ public class ShortestDistance : MonoBehaviour
                     BuildingLocation bl = child.GetComponent<BuildingLocation>();
                     double innerLat = bl.lat - midLat;
                     double innerLon = bl.lon - midLon;
-                    double innerDiff = System.Math.Abs(CoordinatesToTheta(innerLat, innerLon) - theta);
+                    double innerDiff = System.Math.Min(
+                        System.Math.Abs(CoordinatesToTheta(innerLat, innerLon) - theta), 
+                        System.Math.Abs(CoordinatesToTheta(innerLat, innerLon) + 6.28 - theta)
+                    );
+                    ;
                     if (innerDiff < diff) 
                     {
                         diff = innerDiff;
