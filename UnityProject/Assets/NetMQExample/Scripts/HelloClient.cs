@@ -9,7 +9,6 @@ public class HelloClient : MonoBehaviour
     public Text ResultsField;
     public Text ModelOutputField;
 
-
     private void Start()
     {
         _helloRequester = new HelloRequester();

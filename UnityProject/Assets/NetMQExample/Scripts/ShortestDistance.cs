@@ -62,7 +62,6 @@ public class ShortestDistance : MonoBehaviour
         }
     }
 
-
     // Update is called once per frame 
     void Update()
     {
@@ -71,9 +70,6 @@ public class ShortestDistance : MonoBehaviour
             CreateTarget();
             firstLoad = true;
         }
-
-
-
 
         if (Input.GetMouseButtonDown(0))
         {
