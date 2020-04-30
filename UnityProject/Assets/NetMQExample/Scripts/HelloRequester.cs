@@ -16,7 +16,6 @@ public class HelloRequester : RunAbleThread
     public Text ResultsField;
     public Text ModelOutputField;
 
-
     /// <summary>
     ///     Request Hello message to server and receive message back. Do it 10 times.
     ///     Stop requesting when Running=false.
@@ -28,24 +27,29 @@ public class HelloRequester : RunAbleThread
         {
             client.Connect("tcp://172.16.68.186:8080");
 
-            for (int i = 0; i < 10000 && Running; i++)
+            for (int i = 0; i < 1000000 && Running; i++)
             {
                 Debug.Log(ResultsField.text);
-                client.SendFrame(ResultsField.text);
-                // ReceiveFrameString() blocks the thread until you receive the string, but TryReceiveFrameString()
-                // do not block the thread, you can try commenting one and see what the other does, try to reason why
-                // unity freezes when you use ReceiveFrameString() and play and stop the scene without running the server
-                string message = null;
-                bool gotMessage = false;
-                while (Running)
+
+                if ( ResultsField.text.Length > 20)
                 {
-                    gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
-                    if (gotMessage) break;
+                    client.SendFrame(ResultsField.text);
+                    // ReceiveFrameString() blocks the thread until you receive the string, but TryReceiveFrameString()
+                    // do not block the thread, you can try commenting one and see what the other does, try to reason why
+                    // unity freezes when you use ReceiveFrameString() and play and stop the scene without running the server
+                    string message = null;
+                    bool gotMessage = false;
+                    while (Running)
+                    {
+                        gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
+                        if (gotMessage) break;
+                    }
+
+                    ModelOutputField.text = message;
+
+                    if (gotMessage) Debug.Log("Received " + message);
                 }
 
-                ModelOutputField.text = message; 
-
-                if (gotMessage) Debug.Log("Received " + message);
             }
         }
 
