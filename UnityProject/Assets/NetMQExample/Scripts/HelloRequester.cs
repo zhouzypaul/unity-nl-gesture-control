@@ -31,9 +31,14 @@ public class HelloRequester : RunAbleThread
             {
                 Debug.Log(ResultsField.text);
 
-                if ( ResultsField.text.Length > 20)
+               
+
+                if (ResultsField.text.Length > 24)
                 {
-                    client.SendFrame(ResultsField.text);
+
+                    string outMsg = ResultsField.text.Substring(0,ResultsField.text.Length - 14);
+
+                    client.SendFrame(outMsg);
                     // ReceiveFrameString() blocks the thread until you receive the string, but TryReceiveFrameString()
                     // do not block the thread, you can try commenting one and see what the other does, try to reason why
                     // unity freezes when you use ReceiveFrameString() and play and stop the scene without running the server
