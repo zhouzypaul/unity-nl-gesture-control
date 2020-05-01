@@ -68,8 +68,8 @@ public class ClickPosition : MonoBehaviour
             // }
 
             // Debug.Log("click position is" + clickPosition);
-            Debug.Log("longitutde is " + newLon);
-            Debug.Log("latitude is " + newLat);
+            // Debug.Log("longitutde is " + newLon);
+            // Debug.Log("latitude is " + newLat);
             // Debug.Log("point vector is" + (clickPosition.x, clickPosition.y));
             // Debug.Log("angle theta is" + theta);
         }
