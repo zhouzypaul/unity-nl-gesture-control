@@ -29,7 +29,7 @@ public class HelloRequester : RunAbleThread
 
             for (int i = 0; i < 1000000 && Running; i++)
             {
-                Debug.Log(ResultsField.text);
+                // Debug.Log(ResultsField.text);
 
                
 

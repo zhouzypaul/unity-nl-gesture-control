@@ -9,7 +9,6 @@ public class ClickPosition : MonoBehaviour
     public double maxLat;
     public double maxLon;
     public double theta; 
-    public double slope;
 
     public LayerMask clickMask;
 
@@ -54,8 +53,6 @@ public class ClickPosition : MonoBehaviour
                 theta = (System.Math.Atan(clickPosition.x / clickPosition.y) + 3.14) ;
             }
 
-            slope = (double) clickPosition.y / clickPosition.x;
-
             // float newX = (float) (clickPosition.x * lonRescale);
             // float newY = (float) (clickPosition.y * latRescale);
             // float normalize = (float) (1 / (newX * newX + newY * newY));
@@ -71,11 +68,10 @@ public class ClickPosition : MonoBehaviour
             // }
 
             // Debug.Log("click position is" + clickPosition);
-            Debug.Log("longitutde is " + newLon);
-            Debug.Log("latitude is " + newLat);
+            // Debug.Log("longitutde is " + newLon);
+            // Debug.Log("latitude is " + newLat);
             // Debug.Log("point vector is" + (clickPosition.x, clickPosition.y));
             // Debug.Log("angle theta is" + theta);
-            // Debug.Log("slope is " + slope);
         }
     }
 }
