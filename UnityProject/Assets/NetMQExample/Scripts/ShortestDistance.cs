@@ -15,6 +15,7 @@ public class ShortestDistance : MonoBehaviour
     public GameObject prefab;
     public GameObject parent;
     public Text inputStream;
+    public Text closestLandmark;
     public bool firstLoad = false;
 
 
@@ -95,10 +96,22 @@ public class ShortestDistance : MonoBehaviour
                 }
             }
             Debug.Log("the closest destination is " + destination);
+
+
+            // This returns the GameObject named Hand.
+            GameObject hand = GameObject.Find(destination);
+
+            foreach (Transform child in parent.transform)
+            {
+
+                child.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+            }
+
+            hand.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            closestLandmark.text = destination;
         }
     }
 
-    
     // a helper to turn coordinates to angles 
     double CoordinatesToTheta(double lat, double lon)
     {
